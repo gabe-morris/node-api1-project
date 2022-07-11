@@ -49,4 +49,19 @@ server.delete('/api/users/:id', (req,res) => {
     });
 })
 //[PUT] an update in for a specified user
+server.put('/api/users/:id', (req,res) => {
+    let body = req.body;
+    if(body.name == null || body.bio == null) {
+        res.status(400).json({message: "Please provide name and bio for the user"});
+        return;
+    }
+    Users.update(req.params.id,body).then(user =>{
+        if(user == null){
+            res.status(404).json({message: "The user with the specified ID does not exist"})
+            return;
+        }else{ 
+            res.status(200).json(user);
+        }
+    })
+})
 module.exports = server; // EXPORT YOUR SERVER instead of {}
