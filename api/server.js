@@ -38,6 +38,15 @@ server.get('/api/users/:id', (req,res) => {
     })
 })
 //[DELETE] a specified user
-server.delete('/api/users/:id')
+server.delete('/api/users/:id', (req,res) => {
+    const id = req.params.id;
+    Users.remove(id).then(user =>{
+        if(user == null){
+            res.status(404).json({message: "The user with the specified ID does not exist"})
+        }else {
+            res.status(201).json(user)
+        }
+    });
+})
 //[PUT] an update in for a specified user
 module.exports = server; // EXPORT YOUR SERVER instead of {}
